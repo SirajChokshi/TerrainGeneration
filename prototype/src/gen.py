@@ -31,7 +31,7 @@ def create_map(SEED, SCALE=2):
 		for x in range(width):
 			nx = ((x + X_POS)/width)
 			ny = ((y + Y_POS)/height)
-			value[y][x] = snoise2(nx * SCALE, ny * SCALE,
+			value[x][y] = snoise2(nx * SCALE, ny * SCALE,
 								octaves=octaves, 
 					            persistence=persistence, 
 					            lacunarity=lacunarity, 
@@ -42,6 +42,7 @@ def create_map(SEED, SCALE=2):
 	
 	temp = np.copy(value) * COMPLEXITY
 	map = np.floor(temp)
+	print(map)
 	return map
 
 def print_map(map):
@@ -50,18 +51,18 @@ def print_map(map):
 	
 	for y in range(height):
 		for x in range(width):
-			if map[y][x] < WATER_LEVEL:
-				if (map[y][x] < WATER_LEVEL - COMPLEXITY/5.5):
+			if map[x][y] < WATER_LEVEL:
+				if (map[x][y] < WATER_LEVEL - COMPLEXITY/5.5):
 					print(colors.DEEP_BLUE + BLOCK, end = '')
 				else:
 					print(colors.BLUE + BLOCK, end = '')
-			elif map[y][x] < WATER_LEVEL + COMPLEXITY / 10 and map[y][x] > WATER_LEVEL - COMPLEXITY/20:
+			elif map[x][y] < WATER_LEVEL + COMPLEXITY / 10 and map[x][y] > WATER_LEVEL - COMPLEXITY/20:
 				print(colors.ORANGE + BLOCK, end = '')
-			elif map[y][x] < WATER_LEVEL + 7:
+			elif map[x][y] < WATER_LEVEL + 7:
 				print(colors.GREEN + BLOCK, end = '')
-			elif map[y][x] < WATER_LEVEL + 8:
+			elif map[x][y] < WATER_LEVEL + 8:
 				print(colors.DARK_GREEN + BLOCK + colors.RESET, end = '')
-			elif map[y][x] < WATER_LEVEL + 12:
+			elif map[x][y] < WATER_LEVEL + 12:
 				print(colors.GREY + BLOCK, end = '')
 			else:
 				print(colors.WHITE + BLOCK, end = '')

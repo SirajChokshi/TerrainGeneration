@@ -3,7 +3,7 @@ import { Service, project } from "@wasm/studio-utils";
 
 gulp.task("build", async () => {
   const data = await Service.compileFile(project.getFile("main.c"), "c", "wasm", "-g -O3");
-  const outWasm = project.newFile("../bin/main.wasm", "wasm", true);
+  const outWasm = project.newFile("../tmp/main.wasm", "wasm", true);
   outWasm.setData(data);
 });
 

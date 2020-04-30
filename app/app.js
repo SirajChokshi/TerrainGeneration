@@ -26,51 +26,39 @@ const pSBC=(p,c0,c1,l)=>{
 var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
 
-const WATER_LEVEL = 2
-const COMPLEXITY = 25
-const RESOLUTION = 100
+const WATER_LEVEL = 2, COMPLEXITY = 25, RESOLUTION = 100
 
-let SCALE = 1
-let X_POS = 0
-let Y_POS = 0
-
-
-let arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(0));
+let SCALE = 1, X_POS = 0, Y_POS = 0, arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(0));
 
 const mag = () => {
-  if (SCALE >= 0.5) {
-    SCALE -= 0.1;
-  }
+  if (SCALE >= 0.5) SCALE -= 0.1;
   paintMap();
 }
 
 const min = () => {
-    if (SCALE <= 2.2) {
-    SCALE += 0.1;
-  }
+  if (SCALE <= 3.3) SCALE += 0.1;
   paintMap();
 }
 
 const move = (vector) => {
-  X_POS += vector[0];
-  Y_POS += vector[1];
+  if (X_POS + vector[0] * 5 >= 0) X_POS += vector[0] * 5;
+  if (Y_POS + vector[1] * 5 >= 0) Y_POS += vector[1] * 5;
   paintMap();
 }
 
 const paintMap = () => {
+  let scaler = 600 / RESOLUTION
+  console.time("paintMap");
   fetch('/bin/main.wasm').then(response =>
     response.arrayBuffer()
   ).then(bytes => WebAssembly.instantiate(bytes)).then(results => {
     instance = results.instance;
-    // // document.getElementById("container").textContent = instance.exports.main(1);
-    // perlin = (xpos, ypos, freq, depth, seed) => (instance.exports.perlin2d(xpos, ypos, freq, depth, seed));
     for (let x = 0; x < arr.length; x++) {
       for (let y = 0; y < arr[0].length; y++) {
         nx = ((x + X_POS)/arr.length) * SCALE * 0.3
         ny = ((y + Y_POS)/arr[0].length) * SCALE * 0.3
         arr[x][y] = Math.floor(instance.exports.perlin2d(nx, ny, 10, 19, 0) * COMPLEXITY - 12);
         ctx.beginPath();
-        let scaler = 600 / RESOLUTION
         ctx.rect(scaler * x, scaler * y, scaler, scaler);
         if (arr[x][y] < WATER_LEVEL) ctx.fillStyle = "#3399ff";
         else if (arr[x][y] < WATER_LEVEL + 2 && arr[x][y] > WATER_LEVEL - 1) ctx.fillStyle = "#ffe6b3";
@@ -87,6 +75,23 @@ const paintMap = () => {
         ctx.fill();
       }
     }
-    // console.table(arr)
+    
+    // Print Crosshair
+    
+    ctx.beginPath();
+    ctx.fillStyle = "black"
+    ctx.rect(scaler * (arr.length/2 - 1.3), scaler * (arr[0].length/2 - 0.1), scaler * 3.6, scaler * 1.2);
+    ctx.rect(scaler * (arr.length/2 - 0.1), scaler * (arr[0].length/2 - 1.3), scaler * 1.2, scaler * 3.6);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "red"
+    ctx.rect(scaler * (arr.length/2 - 1), scaler * (arr[0].length/2 + 0.25), scaler * 3, scaler * 0.5);
+    ctx.rect(scaler * (arr.length/2 + 0.25), scaler * (arr[0].length/2 - 1), scaler * 0.5, scaler * 3);
+    ctx.fill();
+    
+    document.getElementById('x-pos').innerText = X_POS / 10
+    document.getElementById('y-pos').innerText = Y_POS / 10
+    
+    console.timeEnd("paintMap");
   }).catch(console.error);
 }

@@ -3,26 +3,44 @@
     <meta charset="UTF-8">
     <title>Terrain Generator</title>
     <style>
+      #wrapper {
+        max-width: 550px;
+        width: 95%;
+        margin: 0 auto;
+      }
+    
       #canvas {
         display: block;
-        max-width: 500px;
         width: 100%;
         margin: 0 auto;
-        border-radius: 20px;
+      }
+      
+      #pos {
+        float: right;
+      }
+      
+      #controls {
+        float: left;
       }
     </style>
   </head>
-  <body>
-    <div id="test"></div>
-    <div id="chart"></div>
+  <body id="wrapper">
     <canvas id="canvas" width="600" height="600"></canvas>
-    <button onClick="mag();">Mag</button>
-    <button onClick="min();">Min</button>
-    <br />
-    <button onClick="move([-2,0]);">Left</button>
-    <button onClick="move([0,-2]);">Up</button>
-    <button onClick="move([0,2]);">Down</button>
-    <button onClick="move([2,0]);">Right</button>
+    <div id="controls">
+      <button onClick="mag();">Mag</button>
+      <button onClick="min();">Min</button>
+      <br />
+      <button onClick="move([-2,0]);">Left</button>
+      <button onClick="move([0,-2]);">Up</button>
+      <button onClick="move([0,2]);">Down</button>
+      <button onClick="move([2,0]);">Right</button>
+    </div>
+    
+    <div id="pos">
+      X: <span id="x-pos"></span> <br />
+      Y: <span id="y-pos"></span>
+    </div>
+    
     <script src="./app.js"></script>
     <script>paintMap();</script>
 </body>

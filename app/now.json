@@ -1,0 +1,10 @@
+{
+    "version": 1,
+    "name": "Terrain",
+    "builds": [
+        { "src": "/app/**", "use": "@now/static"}
+    ],
+    "routes": [
+        { "src": "/", "dest": "/app/index.html" },
+    ]
+}

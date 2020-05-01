@@ -9,7 +9,6 @@
     <h1>WASM TerrainGeneration</h1>
     <h2 id="sub-title"><a href="https://sirajchokshi.com" target="_blank">@sirajchokshi</a> / <a href="https://github.com/sirajchokshi/TerrainGeneration" target="_blank">Repository</a></h2>
     <canvas id="canvas" width="600" height="600"></canvas>
-    <!-- <div id="terrain-3d"></div> -->
     <div class="parent" id="controls">
       <div id="mag">
           <button id="zoom-in" onClick="mag();">&plus;</button>
@@ -35,20 +34,33 @@
     </div> 
     <h2>Table of Contents</h2>
     <ol id="toc">
+      <li><a href="#about">About</a></li>
       <li><a href="#usage">Usage</a></li>
+      <!-- <ol>
+        <li><a href="#about">Movement</a></li>
+        <li><a href="#usage">Seed</a></li>
+        <li><a href="#usage">Limitations</a></li>
+      </ol> -->
       <li><a href="#architecture">Architecture</a></li>
+      <!-- <ol>
+        <li><a href="#about">Algorithm</a></li>
+        <li><a href="#usage">Chunking</a></li>
+        <li><a href="#usage">Rendering</a></li>
+      </ol> -->
       <li><a href="#bugs">Bugs/Compatibility</a></li>
     </ol>
+    <h2 id="about">About</h2>
+    <p></p>
     <h2 id="usage">Usage</h2>
     <h3>Movement</h3>
     <p>Move by ten sudo-pixels (i.e. one coordinate value) using the directional navigation buttons. Alternatively, go to a specific position by entering two non-negative integers and clicking the button. The left plus (+) and minus (-) buttons zoom, in and out respectively, relative to the top left pixel of the map.</p>
     <h3>Seed</h3>
     <p>The initial seed is randomized when the document loads, but you can manually enter new seeds or load up previously encountered ones for the same generation.</p>
-    <h3>Restrictions & Issues</h3>
+    <h3>Limitations</h3>
     <p>You cannot navigate towards or go to negative values using the UI (all there is to see is artifact clutter). Additionally artifacts begin appearing after X and Y approach infinity.</p>
     <h2 id="architecture">Architecture</h2>
-    <h3>Overview</h3>
-    <p>Using a simplified 2D Perlin noise algorithm implemented in C to calculate depth information for each point value. For speed and simplicity, the program works optimally when <math>X, Y ∈ { a | 0 &lt; a ≤ 15000, a ∈ Z}</math> where X and Y are integers representing horizontal and vertical position values respectively. The C algorithm has been compiled into WebAssembly (WASM) to run as a binary executable in the web browser.</p>
+    <h3>Algorithm</h3>
+    <p>Using a simplified 2D Perlin noise algorithm implemented in C to calculate depth information for each point value. For speed and simplicity, the program works optimally when <code>X, Y ∈ {a | 0 &lt; a ≤ 15000, a ∈ Z}</code> where X and Y are integers representing horizontal and vertical position values respectively. The C algorithm has been compiled into WebAssembly (WASM) to run as a binary executable in the web browser.</p>
     <h3>Chunking</h3>
     <p>Each coordinate position in the interface represents a 10 by 10 fat pixel chunk which are kept in state to save on memory for small movements. This is especially important due to existing issues with excessive WebAssembly calls (and memory leaking) on some versions of Chromium resulting in a dead tab.</p>
     <h3>Rendering</h3>

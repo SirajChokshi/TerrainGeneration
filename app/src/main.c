@@ -61,14 +61,27 @@ int noise2(int x, int y, int SEED) {
     return hash[(tmp + x) % 256];
 }
 
+/*
+ * Function: lin_inter
+ * ----------------
+ * Finds a linear interpolation between the received values
+ * 
+ * returns: linear interpolation of the received values
+ */
 float lin_inter(float x, float y, float s) {
     return x + s * (y-x);
 }
 
+/*
+ * Function: smooth_inter
+ * ----------------
+ * Finds a smooth/gradient interpolation between the received values
+ * 
+ * returns: smooth/gradient interpolation of the received values
+ */
 float smooth_inter(float x, float y, float s) {
     return lin_inter(x, y, s * s * (3-2*s));
-}
-
+}l
 float noise2d(float x, float y, int seed) {
     int x_int = x;
     int y_int = y;

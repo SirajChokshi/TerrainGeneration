@@ -19,20 +19,16 @@
           <button class="left up" onClick="move([-2,-2]);">&#x2196;</button>
           <button class="up" onClick="move([0,-2]);">&uarr;</button>
           <button class="right up" onClick="move([2,-2]);">&#x2197;</button>
-          
           <button class="left" onClick="move([-2,0]);">&larr;</button>
           <button disabled style="background: #555;" />
           <button class="right" onClick="move([2,0]);">&rarr;</button>
-          
           <button class="left down" onClick="move([-2,2]);">&#x2199;</button>
           <button class="down" onClick="move([0,2]);">&darr;</button>
           <button class="right down" onClick="move([2,2]);">&#x2198;</button>
       </div>
-      
       <div id="enter-seed-wrapper"><input minLength="1" id="enter-seed" type="text" /></div>
       <button id="load-seed" onClick="loadSeed();">Load Seed</button>
       <button id="gen-seed" onClick="randomSeed();">New Random Seed</button>
-      
       <div class="pos-wrapper" id="x-wrapper"><label for="x-pos">X:</label><input oninput="isPosValid();" step="1" min="0" type="number" id="x-pos" /></div>
       <div class="pos-wrapper" id="y-wrapper"><label for="y-pos">Y:</label><input oninput="isPosValid();" step="1" min="0" type="number" id="y-pos" /></div>
       <button id="go-to-btn" onClick="goTo()">Go to</button>
@@ -61,76 +57,17 @@
     <h2 id="bugs">Bugs/Compatibility</h2>
     <p>Did something go wrong? Make sure you have a compatible browser. This program works with all web browsers supporting WebAssembly and HTML5 Canvas. I have compiled a list of popular browser versions in the table below. If your browser should be compatible and you are still facing errors <a target="_blank" href="https://github.com/SirajChokshi/TerrainGeneration/issues/new">open an issue on Github</a> or feel free to shoot an email to <a href="mailto:sirajsc2@illinois.edu">sirajsc2@illinois.edu</a>.</p>
     <table id="comp-table">
-      <tr>
-        <th>Browser</th>
-        <th>Earliest Version</th>
-        <th>Recommended Version</th>
-      </tr>
-      <tr>
-        <td>Firefox</td>
-        <td>52</td>
-        <td>58</td>
-      </tr>
-      <tr>
-        <td>Chrome</td>
-        <td>57</td>
-        <td>61</td>
-      </tr>
-      <tr>
-        <td>Safari</td>
-        <td>11</td>
-        <td>N/A</td>
-      </tr>
-      <tr>
-        <td>Edge</td>
-        <td>16</td>
-        <td>N/A</td>
-      </tr>
-      <tr>
-        <td>Opera</td>
-        <td>44</td>
-        <td>47</td>
-      </tr>
+      <tr><th>Browser</th><th>Earliest Version</th><th>Recommended Version</th></tr>
+      <tr><td>Firefox</td><td>52</td><td>58</td></tr>
+      <tr><td>Chrome</td><td>57</td><td>61</td></tr>
+      <tr><td>Safari</td><td>11</td><td>N/A</td></tr>
+      <tr><td>Edge</td><td>16</td><td>N/A</td></tr>
+      <tr><td>Opera</td><td>44</td><td>47</td></tr>
     </table>
-    
     <ol class="bib">
-      <li><cite>
-        WebAssembly. (2020, April 22). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly" target="_blank" >https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly</a>
-      </cite></li>
-      <li><cite>
-        WebGL API. (2020, March 31). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API</a>
-      </cite></li>
+      <li><cite>WebAssembly. (2020, April 22). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly" target="_blank" >https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly</a></cite></li>
+      <li><cite>WebGL API. (2020, March 31). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API</a></cite></li>
     </ol>
-    
-    <!-- <script src="bin/three.js"></script>
-		<script>
-      var scene = new THREE.Scene();
-      const container = document.querySelector('#terrain-3d');
-			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-      
-			var renderer = new THREE.WebGLRenderer();
-			renderer.setSize(window.innerWidth < 550 ? window.innerWidth * 0.95 : 550, window.innerWidth < 550 ? window.innerHeight : (window.innerHeight) / window.innerWidth * 550);
-			container.appendChild(renderer.domElement );
-      
-      var geometry = new THREE.PlaneGeometry( 5, 5, 32 );
-      var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-      var plane = new THREE.Mesh( geometry, material );
-      plane.rotation.x = -1;
-      scene.add( plane );
-
-			camera.position.z = 5;
-      camera.position.y = -1;
-
-			var animate = function () {
-				requestAnimationFrame( animate );
-
-				plane.rotation.z += 0.01;
-
-				renderer.render( scene, camera );
-			};
-
-			animate();
-		</script> -->
 </body>
 <script src="./app.js"></script>
 <script>paintMap();</script>

@@ -1,47 +1,329 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Terrain Generator</title>
+    <title>Terrain Generator | Siraj Chokshi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+      html {
+        background: #555;
+        font-family: "Menlo", monospace;
+        color: white;
+      }
+    
+      * {
+        box-sizing: border-box;
+      }
+    
       #wrapper {
-        max-width: 550px;
+        max-width: 800px;
         width: 95%;
         margin: 0 auto;
+        padding-bottom: 20vh;
       }
     
       #canvas {
         display: block;
+        max-width: 585px;
         width: 100%;
         margin: 0 auto;
+        margin-bottom: 1px;
       }
       
       #pos {
-        float: right;
+        display: inline-grid;
+        grid-template-rows: 30px 30px 30px;
+        grid-template-columns: 100px;
       }
       
-      #controls {
-        float: left;
+      #controls, #terrain-3d {
+        max-width: 585px;
+        margin: 0 auto;
+        font-size: 0;
       }
+      
+      #controls .directional {
+        vertical-align: top;
+        display: inline-grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      
+      #controls #mag {
+        vertical-align: top;
+        display: inline-grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr;
+      }
+      
+      button, .pos-wrapper {
+          font-size: 16px;
+          background: #444;
+          border: 1px solid #555;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+      }
+      
+      .pos-wrapper input {
+        width: 60%;
+        background-color: #555;
+        font-size: 16px;
+        color: white;
+        border: none;
+        text-align: left;
+      }
+      
+      input {
+        background-color: #555;
+        font-size: 16px;
+        color: white;
+        border: none;
+        margin: 3px 5px;
+        padding-left: 4px;
+        text-align: center;
+        width: 97%;
+      }
+      
+      button:disabled {
+        background: #242424;
+        color: #444;
+        border: 1px solid #555;
+      }    
+      
+      .parent {
+        display: grid;
+        grid-template-columns: 1fr 2fr 6fr 3fr;
+        grid-template-rows: repeat(3, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+      }
+      
+      #enter-seed-wrapper { grid-area: 1 / 3 / 2 / 4; }
+      #load-seed { grid-area: 2 / 3 / 3 / 4; }
+      #gen-seed { grid-area: 3 / 3 / 4 / 4; } 
+      #mag { grid-area: 1 / 1 / 4 / 2; }
+      #x-wrapper { grid-area: 1 / 4 / 2 / 5; }
+      #y-wrapper { grid-area: 2 / 4 / 3 / 5; }
+      #go-to-btn { grid-area: 3 / 4 / 4 / 5; }
+      .directional { grid-area: 1 / 2 / 4 / 3; } 
+      
+      #enter-seed-wrapper {
+        background: #444;
+        text-align: center;
+      }
+      
+      P {
+        line-height: 1.5;
+      }
+      
+      h2 {
+        font-size: 18px;
+        margin-top: 30px;
+      }
+      
+      h1 {
+        margin-top: 30px;
+        margin-bottom: 0;
+      }
+      
+      h2#sub-title {
+        font-size: 22px;
+        margin-top: 0;
+      }
+      
+      h3 {
+        font-size: 16px;
+      }
+      
+      table {
+        width: 100%; 
+        border-collapse: collapse;
+      }
+      
+      table, td, th {
+        border: solid 1px white;
+        padding: 12px;
+      }
+      
+      #comp-table tr th:nth-child(1) {
+        text-align: left;
+      }
+      
+      #comp-table tr th:nth-child(2), #comp-table tr td:nth-child(2), #comp-table tr td:nth-child(3), #comp-table tr th:nth-child(3) {
+        text-align: right;
+      }
+      
+      ol#toc li {
+        line-height: 1.5;
+      }
+      
+      ol ol {
+        list-style: lower-alpha;
+      }
+      
+      ol.bib li {
+        font-size: 14px;
+        line-height: 1.2;
+        margin-bottom: 10px;
+      }
+      
+      a, a:visited {
+        color: darkorange;
+        opacity: 0.85;
+        text-decoration: underline;
+      }
+      
+      a:hover {
+        opacity: 1;
+        color: orange;
+      }
+      
+      /* a[target="_blank"]:after {
+        display:inline-block;
+        content: "➦";
+        margin-left: 4px;
+        text-decoration: none;
+        font-size: 1.3rem;
+      } */
+      
+      math, code {
+        display: inline-block;
+        font-size: 17px;
+        padding: 0 6px;
+        border-radius: 5px;
+        background-color: #444;
+      }
+      
     </style>
   </head>
   <body id="wrapper">
+    <h1>WASM TerrainGeneration</h1>
+    <h2 id="sub-title"><a href="https://sirajchokshi.com" target="_blank">@sirajchokshi</a> / <a href="https://github.com/sirajchokshi/TerrainGeneration" target="_blank">Repository</a></h2>
     <canvas id="canvas" width="600" height="600"></canvas>
-    <div id="controls">
-      <button onClick="mag();">Mag</button>
-      <button onClick="min();">Min</button>
-      <br />
-      <button onClick="move([-2,0]);">Left</button>
-      <button onClick="move([0,-2]);">Up</button>
-      <button onClick="move([0,2]);">Down</button>
-      <button onClick="move([2,0]);">Right</button>
-    </div>
+    <!-- <div id="terrain-3d"></div> -->
+    <div class="parent" id="controls">
+      <div id="mag">
+          <button onClick="mag();">&plus;</button>
+          <button onClick="min();">&minus;</button>
+      </div>
+      <div class="directional">
+          <button class="left up" onClick="move([-2,-2]);">&#x2196;</button>
+          <button class="up" onClick="move([0,-2]);">&uarr;</button>
+          <button class="right up" onClick="move([2,-2]);">&#x2197;</button>
+          
+          <button class="left" onClick="move([-2,0]);">&larr;</button>
+          <button disabled style="background: #555;" />
+          <button class="right" onClick="move([2,0]);">&rarr;</button>
+          
+          <button class="left down" onClick="move([-2,2]);">&#x2199;</button>
+          <button class="down" onClick="move([0,2]);">&darr;</button>
+          <button class="right down" onClick="move([2,2]);">&#x2198;</button>
+      </div>
+      
+      <div id="enter-seed-wrapper"><input minLength="1" id="enter-seed" type="text" /></div>
+      <button id="load-seed" onClick="loadSeed();">Load Seed</button>
+      <button id="gen-seed" onClick="randomSeed();">New Random Seed</button>
+      
+      <div class="pos-wrapper" id="x-wrapper"><label for="x-pos">X:</label><input oninput="isPosValid();" step="1" min="0" type="number" id="x-pos" /></div>
+      <div class="pos-wrapper" id="y-wrapper"><label for="y-pos">Y:</label><input oninput="isPosValid();" step="1" min="0" type="number" id="y-pos" /></div>
+      <button id="go-to-btn" onClick="goTo()">Go to</button>
+    </div> 
+    <h2>Table of Contents</h2>
+    <ol id="toc">
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#bugs">Bugs/Compatibility</a></li>
+    </ol>
+    <h2 id="usage">Usage</h2>
+    <h3>Movement</h3>
+    <p>Move by ten sudo-pixels (i.e. one coordinate value) using the directional navigation buttons. Alternatively, go to a specific position by entering two non-negative integers and clicking the button. The left plus (+) and minus (-) buttons zoom, in and out respectively, relative to the top left pixel of the map.</p>
+    <h3>Seed</h3>
+    <p>The initial seed is randomized when the document loads, but you can manually enter new seeds or load up previously encountered ones for the same generation.</p>
+    <h3>Restrictions & Issues</h3>
+    <p>You cannot navigate towards or go to negative values using the UI (all there is to see is artifact clutter). Additionally artifacts begin appearing after X and Y approach infinity.</p>
+    <h2 id="architecture">Architecture</h2>
+    <h3>Overview</h3>
+    <p>Using a simplified 2D Perlin noise algorithm implemented in C to calculate depth information for each point value. For speed and simplicity, the program works optimally when <math>X, Y ∈ { a | 0 &lt; a ≤ 15000, a ∈ Z}</math> where X and Y are integers representing horizontal and vertical position values respectively. The C algorithm has been compiled into WebAssembly (WASM) to run as a binary executable in the web browser.</p>
+    <h3>Chunking</h3>
+    <p>Each coordinate position in the interface represents a 10 by 10 fat pixel chunk which are kept in state to save on memory for small movements. This is especially important due to existing issues with excessive WebAssembly calls (and memory leaking) on some versions of Chromium resulting in a dead tab.</p>
+    <h3>Rendering</h3>
+    <p>The most compelling part of the terrain generator is likely this step. Graphics are what contextualize what is essentially a 2D array of integers into a map of depths. From there a constant <code>WATER_LEVEL</code> is used to find what is present at each height of the terrain and assign both a color, for material, and an accenting shade for height. Lastly, the shade is randomly altered to add more texture to the map.</p>
+    <p>This process is repeated for every fat pixel on the display and uses JavaScript to draw each chunk onto an HTML5 canvas. The final fat pixel density is determined by the <code>RESOLUTION</code> constant currently set to 100 for the amount of colored squares of each axis. Increasing this constant to a high number (e.g. 400) would increase perceived resemblance to an organic map, but with additional noise values to estimate and an O<sup>2</sup> iteration of the map on render time this process becomes exponentially complex in both time and space. A better solution to achieve a more organic shapes would be to estimate interpolated curves between the points.</p>
+    <h2 id="bugs">Bugs/Compatibility</h2>
+    <p>Did something go wrong? Make sure you have a compatible browser. This program works with all web browsers supporting WebAssembly and HTML5 Canvas. I have compiled a list of popular browser versions in the table below. If your browser should be compatible and you are still facing errors <a target="_blank" href="https://github.com/SirajChokshi/TerrainGeneration/issues/new">open an issue on Github</a> or feel free to shoot an email to <a href="mailto:sirajsc2@illinois.edu">sirajsc2@illinois.edu</a>.</p>
+    <table id="comp-table">
+      <tr>
+        <th>Browser</th>
+        <th>Earliest Version</th>
+        <th>Recommended Version</th>
+      </tr>
+      <tr>
+        <td>Firefox</td>
+        <td>52</td>
+        <td>58</td>
+      </tr>
+      <tr>
+        <td>Chrome</td>
+        <td>57</td>
+        <td>61</td>
+      </tr>
+      <tr>
+        <td>Safari</td>
+        <td>11</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td>Edge</td>
+        <td>16</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td>Opera</td>
+        <td>44</td>
+        <td>47</td>
+      </tr>
+    </table>
     
-    <div id="pos">
-      X: <span id="x-pos"></span> <br />
-      Y: <span id="y-pos"></span>
-    </div>
+    <ol class="bib">
+      <li><cite>
+        WebAssembly. (2020, April 22). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly" target="_blank" >https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly</a>
+      </cite></li>
+      <li><cite>
+        WebGL API. (2020, March 31). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API</a>
+      </cite></li>
+    </ol>
     
-    <script src="./app.js"></script>
-    <script>paintMap();</script>
+    <!-- <script src="bin/three.js"></script>
+		<script>
+      var scene = new THREE.Scene();
+      const container = document.querySelector('#terrain-3d');
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+      
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth < 550 ? window.innerWidth * 0.95 : 550, window.innerWidth < 550 ? window.innerHeight : (window.innerHeight) / window.innerWidth * 550);
+			container.appendChild(renderer.domElement );
+      
+      var geometry = new THREE.PlaneGeometry( 5, 5, 32 );
+      var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+      var plane = new THREE.Mesh( geometry, material );
+      plane.rotation.x = -1;
+      scene.add( plane );
+
+			camera.position.z = 5;
+      camera.position.y = -1;
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+				plane.rotation.z += 0.01;
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script> -->
 </body>
+<script src="./app.js"></script>
+<script>paintMap();</script>
 </html>

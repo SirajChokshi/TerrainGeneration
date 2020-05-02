@@ -13,7 +13,7 @@ button {font-family: "Menlo",monospace;}
 }
 footer {margin-top: 6vh;}
 #canvas {
-    display: block;
+    display: none;
     max-width: 585px;
     width: 100%;
     margin: 0 auto 1px
@@ -26,7 +26,7 @@ footer {margin-top: 6vh;}
 #controls,#terrain-3d {
     max-width: 585px;
     margin: 0 auto;
-    font-size: 0
+    font-size: 0;
 }
 
 #controls #mag,#controls .directional {
@@ -74,7 +74,7 @@ button:disabled {
 }
 
 .parent {
-    display: grid;
+    display: none;
     grid-template-columns: 1fr 2fr 6fr 3fr;
     grid-template-rows: repeat(3,1fr);
     grid-column-gap: 0;

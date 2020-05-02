@@ -1,5 +1,14 @@
+// get canvas
+let c = document.getElementById("canvas"), ctx = c.getContext("2d")
+
+// init constants/vars
 const WATER_LEVEL = 2, COMPLEXITY = 25, RESOLUTION = 100
-let c = document.getElementById("canvas"), ctx = c.getContext("2d"), SCALE = 1, X_POS = 0, Y_POS = 0, arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(0)), SEED = Math.floor(Math.random() * 1000000);
+let SCALE = 1, X_POS = 0, Y_POS = 0;
+
+// init array
+const arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(0)), SEED = Math.floor(Math.random() * 1000000);
+
+// set seed display
 document.getElementById("enter-seed").value = SEED;
 
 let noise, paintMap, scaler = 600 / RESOLUTION
@@ -11,12 +20,19 @@ WebAssembly.instantiateStreaming(fetch('build/main.wasm'), {imports: {imported_f
       // console.time("paintMap");
       for (let x = 0; x < arr.length; x++) {
         for (let y = 0; y < arr[0].length; y++) {
+          
+          // calculate scaled values
           nx = ((x + X_POS)/arr.length) * SCALE * 0.3
           ny = ((y + Y_POS)/arr[0].length) * SCALE * 0.3
+          
+          // find value
           arr[x][y] = Math.floor(noise(nx, ny, 10, 19, SEED) * COMPLEXITY - 12);
+          
+          // begin drawing pixel
           ctx.beginPath();
           ctx.rect(scaler * x, scaler * y, scaler, scaler);
           
+          // Find color from depth
           if (arr[x][y] < WATER_LEVEL) ctx.fillStyle = "#3399ff";
           else if (arr[x][y] < WATER_LEVEL + 2 && arr[x][y] > WATER_LEVEL - 1) {
             ctx.fillStyle = "#ffe6b3";
@@ -26,17 +42,34 @@ WebAssembly.instantiateStreaming(fetch('build/main.wasm'), {imports: {imported_f
           else if (arr[x][y] < WATER_LEVEL + 7) ctx.fillStyle = "#6e9668";
           else if (arr[x][y] < WATER_LEVEL + 9) ctx.fillStyle = "#85adad";
           else ctx.fillStyle = "#eff5f5";
+          
+          // Shade for depth/height
           let difference = (arr[x][y] - WATER_LEVEL < -7 ? -7 : arr[x][y] - WATER_LEVEL), shade = (arr[x][y] >= WATER_LEVEL ? -0.08 : -0.04);
           ctx.fillStyle = pSBC(Math.abs(difference) * shade, ctx.fillStyle)
           if (Math.random() > 0.7) ctx.fillStyle = pSBC(0.012, ctx.fillStyle)
           ctx.fill();
         }
       }
-    
-      ctx.beginPath();ctx.fillStyle = "black"; ctx.rect(scaler * (arr.length/2 - 1.3), scaler * (arr[0].length/2 - 0.1), scaler * 3.6, scaler * 1.2); ctx.rect(scaler * (arr.length/2 - 0.1), scaler * (arr[0].length/2 - 1.3), scaler * 1.2, scaler * 3.6); ctx.fill(); ctx.beginPath();ctx.fillStyle = "red"; ctx.rect(scaler * (arr.length/2 - 1), scaler * (arr[0].length/2 + 0.25), scaler * 3, scaler * 0.5); ctx.rect(scaler * (arr.length/2 + 0.25), scaler * (arr[0].length/2 - 1), scaler * 0.5, scaler * 3); ctx.fill();
       
-      checkDir(); document.getElementById('x-pos').value = X_POS / 10; document.getElementById('y-pos').value = Y_POS / 10;
+      // Draw Crosshair
+      ctx.beginPath();ctx.fillStyle = "black";
+      ctx.rect(scaler * (arr.length/2 - 1.3), scaler * (arr[0].length/2 - 0.1), scaler * 3.6, scaler * 1.2);
+      ctx.rect(scaler * (arr.length/2 - 0.1), scaler * (arr[0].length/2 - 1.3), scaler * 1.2, scaler * 3.6);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.fillStyle = "red";
+      ctx.rect(scaler * (arr.length/2 - 1), scaler * (arr[0].length/2 + 0.25), scaler * 3, scaler * 0.5);
+      ctx.rect(scaler * (arr.length/2 + 0.25), scaler * (arr[0].length/2 - 1), scaler * 0.5, scaler * 3);
+      ctx.fill();
+      
+      checkDir();
+      document.getElementById('x-pos').value = X_POS / 10;
+      document.getElementById('y-pos').value = Y_POS / 10;
       // console.timeEnd("paintMap");
     }
   }
-  ).then(() => paintMap()).catch(console.error);
+  ).then(() => {
+    paintMap();
+    document.getElementById('controls').style.display = "grid";
+    document.getElementById('canvas').style.display = "block"
+  }).catch(console.error);

@@ -3,27 +3,49 @@ let c = document.getElementById("canvas"), ctx = c.getContext("2d")
 
 // init constants/vars
 const WATER_LEVEL = 2, COMPLEXITY = 25, RESOLUTION = 100
-let SCALE = 1, X_POS = 0, Y_POS = 0;
+let SCALE = 1, X_POS = 0, Y_POS = 0, SEED = Math.floor(Math.random() * 1000000);
 
 // init array
-const arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(0)), SEED = Math.floor(Math.random() * 1000000);
+const arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(0))
 
 // set seed display
 document.getElementById("enter-seed").value = SEED;
 
 let noise, paintMap, scaler = 600 / RESOLUTION
 
+
+const getColorFromDepth = (depth) => {
+  // Get Color
+  let color = "red";
+  if (depth < WATER_LEVEL) color = "#3399ff";
+  else if (depth < WATER_LEVEL + 2 && depth > WATER_LEVEL - 1) {
+    color = "#ffe6b3";
+    if (Math.random() > 0.4) color = pSBC(0.02, color)
+  }
+  else if (depth < WATER_LEVEL + 6) color = "#5cd65c";
+  else if (depth < WATER_LEVEL + 7) color = "#6e9668";
+  else if (depth < WATER_LEVEL + 9) color = "#85adad";
+  else color = "#eff5f5";
+  
+  // Shade for depth/height
+  let difference = (depth - WATER_LEVEL < -7 ? -7 : depth - WATER_LEVEL), shade = (depth >= WATER_LEVEL ? -0.08 : -0.04);
+  color = pSBC(Math.abs(difference) * shade, color)
+  if (Math.random() > 0.7) color = pSBC(0.012, color)
+  
+  return color;
+}
+
 WebAssembly.instantiateStreaming(fetch('build/main.wasm'), {imports: {imported_func: arg => console.log(arg)}, js: {mem: new WebAssembly.Memory({initial:10, maximum:100})}}).then(
   results => {
     noise = (x, y, f, d, s) => results.instance.exports.perlin2d(x,y,f,d,s);
     paintMap = () => {
-      // console.time("paintMap");
+      console.time("paintMap");
       for (let x = 0; x < arr.length; x++) {
         for (let y = 0; y < arr[0].length; y++) {
           
           // calculate scaled values
-          nx = ((x + X_POS)/arr.length) * SCALE * 0.3
-          ny = ((y + Y_POS)/arr[0].length) * SCALE * 0.3
+          nx = ((x + X_POS * RESOLUTION / 100)/arr.length) * SCALE * 0.3
+          ny = ((y + Y_POS * RESOLUTION / 100)/arr[0].length) * SCALE * 0.3
           
           // find value
           arr[x][y] = Math.floor(noise(nx, ny, 10, 19, SEED) * COMPLEXITY - 12);
@@ -33,20 +55,7 @@ WebAssembly.instantiateStreaming(fetch('build/main.wasm'), {imports: {imported_f
           ctx.rect(scaler * x, scaler * y, scaler, scaler);
           
           // Find color from depth
-          if (arr[x][y] < WATER_LEVEL) ctx.fillStyle = "#3399ff";
-          else if (arr[x][y] < WATER_LEVEL + 2 && arr[x][y] > WATER_LEVEL - 1) {
-            ctx.fillStyle = "#ffe6b3";
-            if (Math.random() > 0.4) ctx.fillStyle = pSBC(0.02, ctx.fillStyle)
-          }
-          else if (arr[x][y] < WATER_LEVEL + 6) ctx.fillStyle = "#5cd65c";
-          else if (arr[x][y] < WATER_LEVEL + 7) ctx.fillStyle = "#6e9668";
-          else if (arr[x][y] < WATER_LEVEL + 9) ctx.fillStyle = "#85adad";
-          else ctx.fillStyle = "#eff5f5";
-          
-          // Shade for depth/height
-          let difference = (arr[x][y] - WATER_LEVEL < -7 ? -7 : arr[x][y] - WATER_LEVEL), shade = (arr[x][y] >= WATER_LEVEL ? -0.08 : -0.04);
-          ctx.fillStyle = pSBC(Math.abs(difference) * shade, ctx.fillStyle)
-          if (Math.random() > 0.7) ctx.fillStyle = pSBC(0.012, ctx.fillStyle)
+          ctx.fillStyle = getColorFromDepth(arr[x][y]);
           ctx.fill();
         }
       }
@@ -65,7 +74,7 @@ WebAssembly.instantiateStreaming(fetch('build/main.wasm'), {imports: {imported_f
       checkDir();
       document.getElementById('x-pos').value = X_POS / 10;
       document.getElementById('y-pos').value = Y_POS / 10;
-      // console.timeEnd("paintMap");
+      console.timeEnd("paintMap");
     }
   }
   ).then(() => {

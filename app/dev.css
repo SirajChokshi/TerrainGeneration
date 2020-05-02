@@ -4,6 +4,8 @@ html {
     color: #fff
 }
 
+button {font-family: "Menlo",monospace;}
+
 * {
     box-sizing: border-box
 }
@@ -99,7 +101,7 @@ button:disabled {
 .directional {grid-area: 1/2/4/3}
 #enter-seed-wrapper {
     background: #444;
-    text-align: center
+    text-align: center;
 }
 
 p,ol#toc li {
@@ -119,7 +121,17 @@ h2 {
 }
 
 h1 {
-    margin-bottom: 0
+    margin-bottom: 0.25em;
+}
+
+h1 img {
+    height: 1.5em;
+    width: 1.5em;
+    margin-top: -0.2em;
+    margin-right: 0.5em;
+    display: inline-block;
+    vertical-align: middle;
+    image-rendering: crisp-edges;
 }
 
 h2#sub-title {

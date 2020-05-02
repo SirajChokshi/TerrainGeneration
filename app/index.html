@@ -9,7 +9,8 @@
   <body id="wrapper">
     <h1><img alt="logo" src="favicon.png" />WASM TerrainGeneration</h1>
     <h2 id="sub-title"><a href="https://sirajchokshi.com" target="_blank">@sirajchokshi</a> / <a href="https://github.com/sirajchokshi/TerrainGeneration" target="_blank">Repository</a></h2>
-    <canvas id="canvas" width="600" height="600"></canvas>
+    <canvas id="canvas" height="600" width="600"></canvas>
+    <noscript><p style="font-size: 40px;">Enable Javascript to use this application.</p></noscript>
     <div class="parent" id="controls">
       <div id="mag"><button id="zoom-in" onClick="mag();">&plus;</button><button id="zoom-out" onClick="min();">&minus;</button></div>
       <div class="directional">
@@ -37,7 +38,7 @@
     <h3>Movement</h3>
     <p>Move by ten sudo-pixels (i.e. one coordinate value) using the directional navigation buttons. Alternatively, go to a specific position by entering two non-negative integers and clicking the button. The left plus (+) and minus (-) buttons zoom, in and out respectively, relative to the top left pixel of the map.</p>
     <h3>Seed</h3>
-    <p>The initial seed is randomized when the document loads, but you can manually enter new seeds or load up previously encountered ones for the same generation.</p><p> While any string can be entered as a seed*, repeat values may be found as the string is hashed into an integer value and the safe integer limit can be passed when using complex strings. When this occurs the seed is made to be the absolute of the integer wrap-around.</p>
+    <p>The initial seed is randomized when the document loads, but you can manually enter new seeds or load up previously encountered ones for the same generation.</p><p> While any string can be entered as a seed, repeat values may be found as the string is hashed into an integer value and the safe integer limit can be passed when using complex strings. When this occurs the seed is made to be the absolute of the integer wrap-around.</p>
     <h3>Limitations</h3>
     <p>You cannot navigate towards or go to negative values using the UI (all there is to see is artifact clutter). Additionally artifacts begin appearing after X and Y approach infinity.</p>
     <h2 id="architecture">Architecture</h2>
@@ -51,11 +52,11 @@
     <h2 id="bugs">Bugs/Compatibility</h2>
     <p>Did something go wrong? Make sure you have a compatible browser. This program works with all web browsers supporting WebAssembly and HTML5 Canvas. I have compiled a list of popular browser versions in the table below. If your browser should be compatible and you are still facing errors <a target="_blank" href="https://github.com/SirajChokshi/TerrainGeneration/issues/new">open an issue on Github</a> or feel free to shoot an email to <a href="mailto:sirajsc2@illinois.edu">sirajsc2@illinois.edu</a>.</p>
     <table id="comp-table">
-      <tr><th>Browser</th><th>Earliest Version</th><th>Recommended Version</th></tr>
+      <tr><th>Browser</th><th>Minimum Version</th><th>Recommended Version</th></tr>
       <tr><td>Firefox</td><td>52</td><td>58</td></tr>
       <tr><td>Chrome</td><td>57</td><td>61</td></tr>
-      <tr><td>Safari</td><td>11</td><td>N/A</td></tr>
-      <tr><td>Edge</td><td>16</td><td>N/A</td></tr>
+      <tr><td>Safari</td><td>11</td><td>11</td></tr>
+      <tr><td>Edge</td><td>16</td><td>16</td></tr>
       <tr><td>Opera</td><td>44</td><td>47</td></tr>
     </table>
     <ol class="bib">
@@ -63,4 +64,4 @@
       <li><cite>WebGL API. (2020, March 31). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API</a></cite></li>
     </ol>
     <footer><p>Copyright &copy; 2020 <a href="https://sirajchokshi.com" target="_blank">Siraj Chokshi</a>. <a href="https://github.com/sirajchokshi/TerrainGeneration" target="_blank">View Source</a>.</p></footer>
-</body><script src="./app.js"></script><script>paintMap();</script></html>
+</body><script src="./app.js"></script></html>

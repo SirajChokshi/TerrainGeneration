@@ -3,37 +3,26 @@ html {
     font-family: "Menlo",monospace;
     color: #fff
 }
-
 button {font-family: "Menlo",monospace;}
-
-* {
-    box-sizing: border-box
-}
-
+* {box-sizing: border-box}
 #wrapper {
     max-width: 800px;
     width: 95%;
     margin: 0 auto;
     padding-bottom: 9vh
 }
-
-footer {
-    margin-top: 6vh;
-}
-
+footer {margin-top: 6vh;}
 #canvas {
     display: block;
     max-width: 585px;
     width: 100%;
     margin: 0 auto 1px
 }
-
 #pos {
     display: inline-grid;
     grid-template-rows: 30px 30px 30px;
     grid-template-columns: 100px
 }
-
 #controls,#terrain-3d {
     max-width: 585px;
     margin: 0 auto;
@@ -103,27 +92,11 @@ button:disabled {
     background: #444;
     text-align: center;
 }
-
-p,ol#toc li {
-    line-height: 1.5
-}
-
-p {
-    color: #c2c2c2;
-}
-
-h1,h2 {
-    margin-top: 30px
-}
-
-h2 {
-    font-size: 18px
-}
-
-h1 {
-    margin-bottom: 0.25em;
-}
-
+p,ol#toc li {line-height: 1.5}
+p {color: #c2c2c2;}
+h1,h2 {margin-top: 30px}
+h2 {font-size: 18px}
+h1 {margin-bottom: 0.25em;}
 h1 img {
     height: 1.5em;
     width: 1.5em;
@@ -154,17 +127,9 @@ table,td,th {
     padding: 12px
 }
 
-#comp-table tr th:nth-child(1) {
-    text-align: left
-}
-
-#comp-table tr td:nth-child(2),#comp-table tr td:nth-child(3),#comp-table tr th:nth-child(2),#comp-table tr th:nth-child(3) {
-    text-align: right
-}
-
-ol ol {
-    list-style: lower-alpha
-}
+#comp-table tr th:nth-child(1) {text-align: left}
+#comp-table tr td:nth-child(2),#comp-table tr td:nth-child(3),#comp-table tr th:nth-child(2),#comp-table tr th:nth-child(3) {text-align: right}
+ol ol {list-style: lower-alpha}
 
 ol.bib li {
     font-size: 14px;

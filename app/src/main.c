@@ -81,7 +81,7 @@ float lin_inter(float x, float y, float s) {
  */
 float smooth_inter(float x, float y, float s) {
     return lin_inter(x, y, s * s * (3-2*s));
-}l
+}
 float noise2d(float x, float y, int seed) {
     int x_int = x;
     int y_int = y;
@@ -115,7 +115,10 @@ WASM_EXPORT
  * on error: if x or y less than 0, return -1
  */
 float perlin2d(float x, float y, float freq, int depth, int base) {
+
+    /* Return -1 on error */
     if (x < 0 || y < 0) return -1;
+    
     float xa = x*freq;
     float ya = y*freq;
     float amp = 1.0;

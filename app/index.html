@@ -11,20 +11,11 @@
     <h2 id="sub-title"><a href="https://sirajchokshi.com" target="_blank">@sirajchokshi</a> / <a href="https://github.com/sirajchokshi/TerrainGeneration" target="_blank">Repository</a></h2>
     <canvas id="canvas" width="600" height="600"></canvas>
     <div class="parent" id="controls">
-      <div id="mag">
-          <button id="zoom-in" onClick="mag();">&plus;</button>
-          <button id="zoom-out" onClick="min();">&minus;</button>
-      </div>
+      <div id="mag"><button id="zoom-in" onClick="mag();">&plus;</button><button id="zoom-out" onClick="min();">&minus;</button></div>
       <div class="directional">
-          <button class="left up" onClick="move([-2,-2]);">&#x2196;</button>
-          <button class="up" onClick="move([0,-2]);">&uarr;</button>
-          <button class="right up" onClick="move([2,-2]);">&#x2197;</button>
-          <button class="left" onClick="move([-2,0]);">&larr;</button>
-          <button disabled style="background: #555;" />
-          <button class="right" onClick="move([2,0]);">&rarr;</button>
-          <button class="left down" onClick="move([-2,2]);">&#x2199;</button>
-          <button class="down" onClick="move([0,2]);">&darr;</button>
-          <button class="right down" onClick="move([2,2]);">&#x2198;</button>
+          <button class="left up" onClick="move([-2,-2]);">&#x2196;</button><button class="up" onClick="move([0,-2]);">&uarr;</button><button class="right up" onClick="move([2,-2]);">&#x2197;</button>
+          <button class="left" onClick="move([-2,0]);">&larr;</button><button disabled style="background: #555;" /><button class="right" onClick="move([2,0]);">&rarr;</button>
+          <button class="left down" onClick="move([-2,2]);">&#x2199;</button><button class="down" onClick="move([0,2]);">&darr;</button><button class="right down" onClick="move([2,2]);">&#x2198;</button>
       </div>
       <div id="enter-seed-wrapper"><input minLength="1" id="enter-seed" type="text" /></div>
       <button id="load-seed" onClick="loadSeed();">Load Seed</button>
@@ -37,17 +28,7 @@
     <ol id="toc">
       <li><a href="#about">About</a></li>
       <li><a href="#usage">Usage</a></li>
-      <!-- <ol>
-        <li><a href="#about">Movement</a></li>
-        <li><a href="#usage">Seed</a></li>
-        <li><a href="#usage">Limitations</a></li>
-      </ol> -->
       <li><a href="#architecture">Architecture</a></li>
-      <!-- <ol>
-        <li><a href="#about">Algorithm</a></li>
-        <li><a href="#usage">Chunking</a></li>
-        <li><a href="#usage">Rendering</a></li>
-      </ol> -->
       <li><a href="#bugs">Bugs/Compatibility</a></li>
     </ol>
     <h2 id="about">About</h2>
@@ -81,9 +62,5 @@
       <li><cite>WebAssembly. (2020, April 22). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly" target="_blank" >https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly</a></cite></li>
       <li><cite>WebGL API. (2020, March 31). Retrieved May 1, 2020, from <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API</a></cite></li>
     </ol>
-    
     <footer><p>Copyright &copy; 2020 <a href="https://sirajchokshi.com" target="_blank">Siraj Chokshi</a>. <a href="https://github.com/sirajchokshi/TerrainGeneration" target="_blank">View Source</a>.</p></footer>
-</body>
-<script src="./app.js"></script>
-<script>paintMap();</script>
-</html>
+</body><script src="./app.js"></script><script>paintMap();</script></html>

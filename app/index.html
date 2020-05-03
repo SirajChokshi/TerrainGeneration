@@ -87,6 +87,9 @@
       minus (-) buttons zoom, in and out respectively, relative to the top left
       pixel of the map.
     </p>
+    <p>
+      The direction arrow keys will also function to navigate in the
+    </p>
     <h3>Seed</h3>
     <p>
       The initial seed is randomized when the document loads, but you can
@@ -95,9 +98,15 @@
     </p>
     <p>
       While any string can be entered as a seed, repeat values may be found as
-      the string is hashed into an integer value and the safe integer limit can
-      be passed when using complex strings. When this occurs the seed is made to
-      be the absolute of the integer wrap-around.
+      strings, that are not already positive integers, are hashed into an integer
+      value and the safe integer limit can be passed when using extraneous or
+      lengthy strings. When this occurs the seed falls back to the absolute value of 
+      the integer wrap-around.
+    </p>
+    <p>
+      Overriding the integer limit check can be done by simply entering an integer
+      larger than <code>2<sup>53</sup></code>. At this point significant
+      stretching and artifacting is noticeable. 
     </p>
     <h3>Limitations</h3>
     <p>
@@ -120,10 +129,9 @@
     <h3>Chunking</h3>
     <p>
       Each coordinate position in the interface represents a 10 by 10 fat pixel
-      chunk which are kept in state to save on memory for small movements. This
-      is especially important due to existing issues with excessive WebAssembly
-      calls (and memory leaking) on some versions of Chromium resulting in a
-      dead tab.
+      chunk which are kept in state to limit the calculations necessary for rendering
+      movements smaller than the viewport. Chunking also reduces the risk of memory
+      leaks in the WebAssembly module resulting in a dead tab.
     </p>
     <h3>Rendering</h3>
     <p>
@@ -211,6 +219,7 @@
       </p>
     </footer>
   </body>
-  <script src="build/utils.js"></script>
+  <script src="js/utils.js"></script>
   <script src="app.js"></script>
+  <script src="js/keybinds.js"></script>
 </html>

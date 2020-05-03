@@ -6,7 +6,7 @@ const WATER_LEVEL = 2, COMPLEXITY = 25, RESOLUTION = 100
 let SCALE = 1, X_POS = 0, Y_POS = 0, SEED = Math.floor(Math.random() * 1000000);
 
 // init array
-const arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(0))
+const arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(NaN))
 
 // set seed display
 document.getElementById("enter-seed").value = SEED;
@@ -35,30 +35,74 @@ const getColorFromDepth = (depth) => {
   return color;
 }
 
-WebAssembly.instantiateStreaming(fetch('build/main.wasm'), {imports: {imported_func: arg => console.log(arg)}, js: {mem: new WebAssembly.Memory({initial:10, maximum:100})}}).then(
+function shift(arr, x, y) {
+    while (x > 0) {
+        arr.forEach(function (a) {
+            a.pop();
+            a.unshift(NaN);
+        });
+        x--;
+    }
+    while (x < 0) {
+        arr.forEach(function (a) {
+            a.shift();
+            a.push(NaN);
+        });
+        x++;
+    }
+    while (y > 0) {
+        arr.unshift(arr.pop().map(function () { return NaN; }));
+        y--;
+    }
+    while (y < 0) {
+        arr.push(arr.shift().map(function () { return NaN; }));
+        y++;
+    }
+}
+
+const move = (vector) => {
+  if (X_POS + vector[0] * 5 >= 0) {
+    X_POS += vector[0] * 5;
+    shift(arr, 0, -vector[0] * 5)
+  }
+  if (Y_POS + vector[1] * 5 >= 0) {
+    Y_POS += vector[1] * 5;
+    shift(arr, -vector[1] * 5, 0)
+  }
+  paintMap(false);
+}
+
+WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_func: arg => console.log(arg)}, js: {mem: new WebAssembly.Memory({initial:10, maximum:100})}}).then(
   results => {
     noise = (x, y, f, d, s) => results.instance.exports.perlin2d(x,y,f,d,s);
-    paintMap = () => {
+    paintMap = (change) => {
       console.time("paintMap");
+      
+      let count = 0;
+      
       for (let x = 0; x < arr.length; x++) {
         for (let y = 0; y < arr[0].length; y++) {
-          
-          // calculate scaled values
-          nx = ((x + X_POS * RESOLUTION / 100)/arr.length) * SCALE * 0.3
-          ny = ((y + Y_POS * RESOLUTION / 100)/arr[0].length) * SCALE * 0.3
-          
-          // find value
-          arr[x][y] = Math.floor(noise(nx, ny, 10, 19, SEED) * COMPLEXITY - 12);
-          
-          // begin drawing pixel
-          ctx.beginPath();
-          ctx.rect(scaler * x, scaler * y, scaler, scaler);
-          
-          // Find color from depth
-          ctx.fillStyle = getColorFromDepth(arr[x][y]);
-          ctx.fill();
+          // check if value needs refresh
+          if(change || isNaN(arr[x][y])) {
+            count++;
+            // calculate scaled values
+            nx = ((x + X_POS * RESOLUTION / 100)/arr.length) * SCALE * 0.3
+            ny = ((y + Y_POS * RESOLUTION / 100)/arr[0].length) * SCALE * 0.3
+            
+            // find value
+            arr[x][y] = Math.floor(noise(nx, ny, 10, 19, SEED) * COMPLEXITY - COMPLEXITY / 2.0833333333333333);
+          }
+            // begin drawing pixel
+            ctx.beginPath();
+            ctx.rect(scaler * x, scaler * y, scaler, scaler);
+            
+            // Find color from depth
+            ctx.fillStyle = getColorFromDepth(arr[x][y]);
+            ctx.fill();
         }
       }
+      
+      console.log(count)
       
       // Draw Crosshair
       ctx.beginPath();ctx.fillStyle = "black";

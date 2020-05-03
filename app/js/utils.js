@@ -9,7 +9,7 @@ const hashCode = (s) => {
 const randomSeed = () => {
   SEED = Math.floor(Math.random() * 1000000);
   document.getElementById("enter-seed").value = SEED;
-  paintMap();
+  paintMap(true);
 }
 
 const loadSeed = () => {
@@ -17,21 +17,21 @@ const loadSeed = () => {
   if (isNaN(seedIn) || seedIn < 0) {
 	  SEED = hashCode(document.getElementById("enter-seed").value);
   } else SEED = seedIn
-  paintMap();
+  paintMap(true);
 }
 
 const mag = () => {
   if (SCALE >= 0.5) SCALE -= 0.1;
   if (SCALE < 0.5) document.getElementById('zoom-in').disabled = true;
   if (SCALE <= 3.3) document.getElementById('zoom-out').disabled = false;
-  paintMap();
+  paintMap(true);
 }
 
 const min = () => {
   if (SCALE <= 3.3) SCALE += 0.1;
   if (SCALE >= 0.5) document.getElementById('zoom-in').disabled = false;
   if (SCALE > 3.3) document.getElementById('zoom-out').disabled = true;
-  paintMap();
+  paintMap(true);
 }
 
 const isPosValid = () => {
@@ -42,11 +42,13 @@ const isPosValid = () => {
 const goTo = () => {
   const x = document.getElementById("x-pos").value
   const y = document.getElementById('y-pos').value
+  
   if (x >= 0 && y >= 0) {
 	  X_POS = x * 10;
 	  Y_POS = y * 10;
   }
-  paintMap();
+  
+  paintMap(true);
 }
 
 const disableDir = (dir) => {
@@ -64,10 +66,4 @@ const checkDir = () => {
   enableDir('left')
   if (X_POS - 10 < 0) disableDir('left')
   if (Y_POS - 10 < 0) disableDir('up')
-}
-
-const move = (vector) => {
-  if (X_POS + vector[0] * 5 >= 0) X_POS += vector[0] * 5;
-  if (Y_POS + vector[1] * 5 >= 0) Y_POS += vector[1] * 5;
-  paintMap();
 }

@@ -76,7 +76,7 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
   results => {
     noise = (x, y, f, d, s) => results.instance.exports.perlin2d(x,y,f,d,s);
     paintMap = (change) => {
-      console.time("paintMap");
+      // console.time("paintMap");
       
       let count = 0;
       
@@ -102,7 +102,7 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
         }
       }
       
-      console.log(count)
+      // console.log("Saved " + (10000 - count) + " calls.")
       
       // Draw Crosshair
       ctx.beginPath();ctx.fillStyle = "black";
@@ -118,7 +118,7 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
       checkDir();
       document.getElementById('x-pos').value = X_POS / 10;
       document.getElementById('y-pos').value = Y_POS / 10;
-      console.timeEnd("paintMap");
+      // console.timeEnd("paintMap");
     }
   }
   ).then(() => {

@@ -13,12 +13,43 @@ Prototyped in Python using the Noise module.
     <h2 id="about">About</h2>
     <p>This terrain generator uses Perlin noise and was built with WebAssembly, C, and JavaScript. My motivation to build this stems from my interest in producing complex behavior from simple systems. While generation is not exactly simple, it is, to the perceiver, a noisy map giving even a little bit of context (e.g. letting the values represent depth or height) allows for an entirely new perspective. Assigning meaning to numerical values can elevate a noise function to a model resembling the natural world.</p>
     <h2 id="usage">Usage</h2>
-    <h3>Movement</h3>
-    <p>Move by ten sudo-pixels (i.e. one coordinate value) using the directional navigation buttons. Alternatively, go to a specific position by entering two non-negative integers and clicking the button. The left plus (+) and minus (-) buttons zoom, in and out respectively, relative to the top left pixel of the map.</p>
+<h3>Movement</h3>
+    <p>
+      Move by ten sudo-pixels (i.e. one coordinate value) using the directional
+      navigation buttons. Alternatively, go to a specific position by entering
+      two non-negative integers and clicking the button. The left plus (+) and
+      minus (-) buttons zoom, in and out respectively, relative to the top left
+      pixel of the map.
+    </p>
+    <p>
+      The keyboard can also be used to navigate the terrain with the following controls.
+      <ul>
+        <li><code>W</code> - Move Up / Increase Y Value</li>
+        <li><code>A</code> - Move Left / Decrease X Value</li>
+        <li><code>S</code> - Move Down / Decrease Y Value</li>
+        <li><code>D</code> - Move Right / Increase X Value</li>
+      </ul>
+    </p>
     <h3>Seed</h3>
-    <p>The initial seed is randomized when the document loads, but you can manually enter new seeds or load up previously encountered ones for the same generation.</p><p> While any string can be entered as a seed, repeat values may be found as the string is hashed into an integer value and the safe integer limit can be passed when using complex strings. When this occurs the seed is made to be the absolute of the integer wrap-around.</p>
+    <p>
+      The initial seed is randomized when the document loads, but you can
+      manually enter new seeds or load up previously encountered ones for the
+      same generation.
+    </p>
+    <p>
+      While any string can be entered as a seed, repeat values may be found as
+      strings, that are not already positive integers, are hashed into an integer
+      value and the safe integer limit can be passed when using extraneous or
+      lengthy strings. When this occurs the seed falls back to the absolute value of 
+      the integer wrap-around.
+    </p>
+    <p>
+      Overriding the integer limit check can be done by simply entering an integer
+      larger than <code>2<sup>53</sup></code>. At this point significant
+      stretching and artifacting is noticeable. 
+    </p>
     <h3>Limitations</h3>
-    <p>You cannot navigate towards or go to negative values using the UI (all there is to see is artifact clutter). Additionally artifacts begin appearing after X and Y approach infinity.</p>
+    <p>You cannot navigate towards or go to negative values using the UI (all there is to see is artifact clutter). Additionally artifacts begin appearing as X and Y approach infinity.</p>
     <h2 id="architecture">Architecture</h2>
     <h3>Algorithm</h3>
     <p>Using a simplified 2D Perlin noise algorithm implemented in C to calculate depth information for each point value. For speed and simplicity, the program works optimally when <code>X, Y ∈ {a | 0 ≤ a ≤ 15000, a ∈ Z}</code> where X and Y are integers representing horizontal and vertical position values respectively. The C algorithm has been compiled into WebAssembly (WASM) to run as a binary executable in the web browser. The compiled WASM module is able to provide unmatched speed when compared to JavaScript.</p>

@@ -3,7 +3,7 @@ let c = document.getElementById("canvas"), ctx = c.getContext("2d")
 
 // init constants/vars
 const WATER_LEVEL = 2, COMPLEXITY = 25, RESOLUTION = 100
-let SCALE = 1, X_POS = 0, Y_POS = 0, SEED = Math.floor(Math.random() * 1000000);
+let SCALE = 3, X_POS = 0, Y_POS = 0, SEED = Math.floor(Math.random() * 1000000);
 
 // init array
 const arr = Array(RESOLUTION).fill().map(() => Array(RESOLUTION).fill(NaN))
@@ -86,11 +86,11 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
           if(change || isNaN(arr[x][y])) {
             count++;
             // calculate scaled values
-            nx = ((x + X_POS * RESOLUTION / 100)/arr.length) * SCALE * 0.3
-            ny = ((y + Y_POS * RESOLUTION / 100)/arr[0].length) * SCALE * 0.3
+            nx = ((x + X_POS * RESOLUTION / 100)/arr.length) * 0.3
+            ny = ((y + Y_POS * RESOLUTION / 100)/arr[0].length) * 0.3
             
             // find value
-            arr[x][y] = Math.floor(noise(nx, ny, 10, 19, SEED) * COMPLEXITY - COMPLEXITY / 2.0833333333333333);
+            arr[x][y] = Math.floor(noise(nx, ny, 10 + SCALE, 19, SEED) * COMPLEXITY - COMPLEXITY / 2.0833333333333333);
           }
             // begin drawing pixel
             ctx.beginPath();

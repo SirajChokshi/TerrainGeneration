@@ -21,16 +21,16 @@ const loadSeed = () => {
 }
 
 const mag = () => {
-  if (SCALE >= 0.5) SCALE -= 0.1;
-  if (SCALE < 0.5) document.getElementById('zoom-in').disabled = true;
-  if (SCALE <= 3.3) document.getElementById('zoom-out').disabled = false;
+  if (SCALE >= -6) SCALE -= 3;
+  if (SCALE < -6) document.getElementById('zoom-in').disabled = true;
+  if (SCALE <= 30) document.getElementById('zoom-out').disabled = false;
   paintMap(true);
 }
 
 const min = () => {
-  if (SCALE <= 3.3) SCALE += 0.1;
-  if (SCALE >= 0.5) document.getElementById('zoom-in').disabled = false;
-  if (SCALE > 3.3) document.getElementById('zoom-out').disabled = true;
+  if (SCALE <= 30) SCALE += 3;
+  if (SCALE >= -6) document.getElementById('zoom-in').disabled = false;
+  if (SCALE > 30) document.getElementById('zoom-out').disabled = true;
   paintMap(true);
 }
 

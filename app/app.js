@@ -128,8 +128,8 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
   }).catch(() => {
     document.getElementById('wasm-warning').innerText = "🚨 Failed to load WebAssembly Module";
     document.getElementById('wasm-warning').style.display = true;
-  }));
+  });
   
- if(!supported) {
-   document.getElementById('wasm-warning').style.display = true;
- }
+ // if(!supported) {
+ //   document.getElementById('wasm-warning').style.display = true;
+ // }

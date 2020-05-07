@@ -11,7 +11,13 @@ Prototyped in Python using the Noise module.
       <li><a href="#bugs">Bugs/Compatibility</a></li>
     </ol>
     <h2 id="about">About</h2>
-    <p>This terrain generator uses Perlin noise and was built with WebAssembly, C, and JavaScript. My motivation to build this stems from my interest in producing complex behavior from simple systems. While generation is not exactly simple, it is, to the perceiver, a noisy map giving even a little bit of context (e.g. letting the values represent depth or height) allows for an entirely new perspective. Assigning meaning to numerical values can elevate a noise function to a model resembling the natural world.</p>
+    <p>This terrain generator uses Perlin noise and was built with WebAssembly,
+    C, and JavaScript. My motivation to build this stems from my interest in
+    producing complex behavior from simple systems. While noise generation is not
+    entirely simple, to the perceiver, giving a noisy map even a little
+    bit of context (e.g. letting the values represent depth or height) forms
+    an entirely new perspective. Assigning meaning to numerical values can
+    elevate a noise function to a model resembling the natural world.</p>
     <h2 id="usage">Usage</h2>
 <h3>Movement</h3>
     <p>

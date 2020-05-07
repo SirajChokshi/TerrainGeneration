@@ -18,6 +18,9 @@
         🚨 Enable Javascript to use this application.
       </p>
     </noscript>
+    <p id="wasm-warning" style="font-size: 28px;color:crimson;background: pink;border-radius: 12px;padding: 20px;font-weight:700;display:none;">
+      🚨 Use a <a style="color: crimson;" href="#bugs">WebAssembly compatible</a> browser to use this application.
+    </p>
     <div class="parent" id="controls">
       <div id="mag">
         <button id="zoom-in" onClick="mag();">&plus;</button>
@@ -72,10 +75,10 @@
     <p>
       This terrain generator uses Perlin noise and was built with WebAssembly,
       C, and JavaScript. My motivation to build this stems from my interest in
-      producing complex behavior from simple systems. While generation is not
-      exactly simple, it is, to the perceiver, a noisy map giving even a little
-      bit of context (e.g. letting the values represent depth or height) allows
-      for an entirely new perspective. Assigning meaning to numerical values can
+      producing complex behavior from simple systems. While noise generation is not
+      entirely simple, to the perceiver, giving a noisy map even a little
+      bit of context (e.g. letting the values represent depth or height) forms
+      an entirely new perspective. Assigning meaning to numerical values can
       elevate a noise function to a model resembling the natural world.
     </p>
     <h2 id="usage">Usage</h2>

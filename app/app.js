@@ -125,4 +125,6 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
     paintMap();
     document.getElementById('controls').style.display = "grid";
     document.getElementById('canvas').style.display = "block"
-  }).catch(console.error);
+  }).catch(() => {
+    document.getElementById('wasm-warning').style.display = true;
+  }));

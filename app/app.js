@@ -72,7 +72,8 @@ const move = (vector) => {
   paintMap(false);
 }
 
-WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_func: arg => console.log(arg)}, js: {mem: new WebAssembly.Memory({initial:10, maximum:100})}}).then(
+try {
+ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_func: arg => console.log(arg)}, js: {mem: new WebAssembly.Memory({initial:10, maximum:100})}}).then(
   results => {
     noise = (x, y, f, d, s) => results.instance.exports.perlin2d(x,y,f,d,s);
     paintMap = (change) => {
@@ -127,9 +128,9 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
     document.getElementById('canvas').style.display = "block"
   }).catch(() => {
     document.getElementById('wasm-warning').innerText = "🚨 Failed to load WebAssembly Module";
-    document.getElementById('wasm-warning').style.display = true;
-  });
-  
- if(!supported) {
-   document.getElementById('wasm-warning').style.display = true;
- }
+    document.getElementById('wasm-warning').style.display = "block";
+  }); 
+} catch(e) {
+  console.log(e)
+  document.getElementById('wasm-warning').style.display = "block";
+}

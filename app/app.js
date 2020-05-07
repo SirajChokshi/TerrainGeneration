@@ -130,6 +130,6 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
     document.getElementById('wasm-warning').style.display = true;
   });
   
- // if(!supported) {
- //   document.getElementById('wasm-warning').style.display = true;
- // }
+ if(!supported) {
+   document.getElementById('wasm-warning').style.display = true;
+ }

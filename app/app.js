@@ -126,5 +126,10 @@ WebAssembly.instantiateStreaming(fetch('bin/main.wasm'), {imports: {imported_fun
     document.getElementById('controls').style.display = "grid";
     document.getElementById('canvas').style.display = "block"
   }).catch(() => {
+    document.getElementById('wasm-warning').innerText = "🚨 Failed to load WebAssembly Module";
     document.getElementById('wasm-warning').style.display = true;
   }));
+  
+ if(!supported) {
+   document.getElementById('wasm-warning').style.display = true;
+ }

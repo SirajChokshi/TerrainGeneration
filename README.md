@@ -138,7 +138,6 @@ Prototyped in Python using the Noise module.
         <td>47</td>
       </tr>
     </table>
-
     <ol class="bib">
       <li>
         <cite>WebAssembly. (2020, April 22). Retrieved May 1, 2020, from

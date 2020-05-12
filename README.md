@@ -141,20 +141,17 @@ Prototyped in Python using the Noise module.
 
     <ol class="bib">
       <li>
-        <cite
-          >WebAssembly. (2020, April 22). Retrieved May 1, 2020, from
+        <cite>WebAssembly. (2020, April 22). Retrieved May 1, 2020, from
           <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly" target="_blank" >https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/WebAssembly</a>
         </cite>
       </li>
       <li>
-        <cite
-          >WebAssembly.instantiateStreaming(). (2020, May 7). Retrieved May 7, 2020, from
+        <cite>WebAssembly.instantiateStreaming(). (2020, May 7). Retrieved May 7, 2020, from
           <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming" target="_blank" >https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiateStreaming</a>
         </cite>
       </li>
       <li>
-        <cite
-          >WebGL API. (2020, March 31). Retrieved May 1, 2020, from
+        <cite>WebGL API. (2020, March 31). Retrieved May 1, 2020, from
           <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API</a>
         </cite>
       </li>

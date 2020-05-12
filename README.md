@@ -122,7 +122,7 @@ Prototyped in Python using the Noise module.
         <td>58</td>
       </tr>
       <tr>
-        <td>Chrome*</td>
+        <td>Chrome</td>
         <td>61</td>
       </tr>
       <tr>
@@ -138,8 +138,6 @@ Prototyped in Python using the Noise module.
         <td>47</td>
       </tr>
     </table>
-    
-    <p>* On Chrome versions between 70 and 74 enable <a href="https://developers.google.com/web/updates/2018/10/wasm-threads" target="_blank">threads</a> for better performance.</p>
 
     <ol class="bib">
       <li>

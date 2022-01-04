@@ -104,7 +104,8 @@ h1 img {
     margin-right: 0.5em;
     display: inline-block;
     vertical-align: middle;
-    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
 }
 
 h2#sub-title {
